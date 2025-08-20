@@ -680,3 +680,28 @@ label {
 }
 
 /* PROFILE end */
+
+/* BLOG begin */
+
+.blog-heading-visual {
+  position: relative;
+  top: 20px;
+}
+
+.blog-section-p {
+  max-width: 495px;
+}
+
+.blog-heading-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: space-between;
+}
+
+.blog-heading {
+  position: relative;
+  top: -24px;
+}
+
+/* BLOG end */

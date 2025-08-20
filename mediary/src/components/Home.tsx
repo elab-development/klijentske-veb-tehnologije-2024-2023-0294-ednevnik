@@ -1,4 +1,6 @@
 import React from "react";
+import OneBlogPost from "./OneBlogPost";
+import OneTestimonial from "./OneTestimonial";
 
 function Home() {
   return (
@@ -81,74 +83,9 @@ function Home() {
 
               <div className="blog-posts-wrapper">
                 {/* Placeholderi */}
-                <div className="blog-post">
-                  <img
-                    src="../assets/blog-post-card.png"
-                    alt="Blog Post Card"
-                  />
-                  <div className="blog-post-content">
-                    <div className="blog-post-text-wrapper">
-                      <h3>
-                        5 Simple Mindfulness Exercises to Boost Your Daily Calm
-                      </h3>
-                      <p className="blog-post-p">
-                        Learn five easy mindfulness techniques to reduce stress
-                        and find inner peace in just a few minutes a day. Start
-                        your journey to a calmer mind today.
-                      </p>
-                    </div>
-
-                    <a href="/" className="cta secondary blog-read-btn">
-                      Read Article
-                    </a>
-                  </div>
-                </div>
-
-                <div className="blog-post">
-                  <img
-                    src="../assets/blog-post-card.png"
-                    alt="Blog Post Card"
-                  />
-                  <div className="blog-post-content">
-                    <div className="blog-post-text-wrapper">
-                      <h3>
-                        5 Simple Mindfulness Exercises to Boost Your Daily Calm
-                      </h3>
-                      <p className="blog-post-p">
-                        Learn five easy mindfulness techniques to reduce stress
-                        and find inner peace in just a few minutes a day. Start
-                        your journey to a calmer mind today.
-                      </p>
-                    </div>
-
-                    <a href="/" className="cta secondary blog-read-btn">
-                      Read Article
-                    </a>
-                  </div>
-                </div>
-
-                <div className="blog-post">
-                  <img
-                    src="../assets/blog-post-card.png"
-                    alt="Blog Post Card"
-                  />
-                  <div className="blog-post-content">
-                    <div className="blog-post-text-wrapper">
-                      <h3>
-                        5 Simple Mindfulness Exercises to Boost Your Daily Calm
-                      </h3>
-                      <p className="blog-post-p">
-                        Learn five easy mindfulness techniques to reduce stress
-                        and find inner peace in just a few minutes a day. Start
-                        your journey to a calmer mind today.
-                      </p>
-                    </div>
-
-                    <a href="/" className="cta secondary blog-read-btn">
-                      Read Article
-                    </a>
-                  </div>
-                </div>
+                <OneBlogPost />
+                <OneBlogPost />
+                <OneBlogPost />
               </div>
 
               <a href="/" className="cta primary blog-cta-btn element-center">
@@ -201,74 +138,9 @@ function Home() {
               </div>
 
               <div className="testimonials-wrapper">
-                <div className="testimonial">
-                  <p className="testimonial-text">
-                    <span className="hanging-punctuation">"</span>meDiary has
-                    been a lifeline for managing my stress. Helps me manage
-                    daily stress in business and my work."
-                  </p>
-                  <div className="testimonial-person-wrapper">
-                    <img src="../assets/person-1.png" alt="Person" />
-                    <div className="testimonial-name-wrapper">
-                      <div className="stars-wrapper">
-                        <img src="../assets/stars.svg" alt="Star" />
-                      </div>
-                      <span className="text-semibold">Max Carter</span>
-                    </div>
-                  </div>
-
-                  <img
-                    src="../assets/testimonial-gradient.svg"
-                    alt="Testimonial Gradient"
-                    className="testimonial-gradient"
-                  />
-                </div>
-
-                <div className="testimonial">
-                  <p className="testimonial-text">
-                    <span className="hanging-punctuation">"</span>meDiary has
-                    been a lifeline for managing my stress. Helps me manage
-                    daily stress in business and my work."
-                  </p>
-                  <div className="testimonial-person-wrapper">
-                    <img src="../assets/person-1.png" alt="Person" />
-                    <div className="testimonial-name-wrapper">
-                      <div className="stars-wrapper">
-                        <img src="../assets/stars.svg" alt="Star" />
-                      </div>
-                      <span className="text-semibold">Max Carter</span>
-                    </div>
-                  </div>
-
-                  <img
-                    src="../assets/testimonial-gradient.svg"
-                    alt="Testimonial Gradient"
-                    className="testimonial-gradient"
-                  />
-                </div>
-
-                <div className="testimonial">
-                  <p className="testimonial-text">
-                    <span className="hanging-punctuation">"</span>meDiary has
-                    been a lifeline for managing my stress. Helps me manage
-                    daily stress in business and my work."
-                  </p>
-                  <div className="testimonial-person-wrapper">
-                    <img src="../assets/person-1.png" alt="Person" />
-                    <div className="testimonial-name-wrapper">
-                      <div className="stars-wrapper">
-                        <img src="../assets/stars.svg" alt="Star" />
-                      </div>
-                      <span className="text-semibold">Max Carter</span>
-                    </div>
-                  </div>
-
-                  <img
-                    src="../assets/testimonial-gradient.svg"
-                    alt="Testimonial Gradient"
-                    className="testimonial-gradient"
-                  />
-                </div>
+                <OneTestimonial />
+                <OneTestimonial />
+                <OneTestimonial />
               </div>
             </div>
           </div>

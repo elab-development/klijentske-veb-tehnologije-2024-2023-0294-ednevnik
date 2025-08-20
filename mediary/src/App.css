@@ -95,6 +95,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: 184px;
 }
 
 .secondary {
@@ -209,7 +210,7 @@ form button {
 .login-form {
   display: flex;
   flex-direction: column;
-  row-gap: 8px;
+  row-gap: 12px;
 }
 
 .margin-b-16 {
@@ -469,9 +470,9 @@ label {
   max-width: 335px;
 }
 
-.blog-cta-btn {
+/* .blog-cta-btn {
   max-width: 184px;
-}
+} */
 
 .blog-read-btn {
   max-width: 127px;
@@ -523,7 +524,7 @@ label {
 }
 
 .text-semibold {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .testimonial-person-wrapper {
@@ -593,7 +594,7 @@ label {
 .black-cta {
   background-color: #262625;
   color: #f2f2f2;
-  max-width: 184px;
+  /* max-width: 184px; */
 }
 
 .h1-style {
@@ -611,6 +612,71 @@ label {
 
 .margin-b-64 {
   margin-bottom: 64px;
+}
+
+.profile-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 32px;
+}
+
+.profile-block {
+  background-color: #333332;
+  border-radius: 12px;
+  padding: 32px;
+}
+
+.delete-primary {
+  background-color: #f47353;
+  color: #262625;
+  min-width: 184px;
+}
+
+.delete-secondary {
+  background-color: rgba(244, 115, 83, 0.1);
+  color: #f47353;
+  min-width: 184px;
+}
+
+.profile-btn-wrapper {
+  display: flex;
+  flex-direction: row;
+  column-gap: 12px;
+}
+
+.info-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  column-gap: 128px;
+}
+
+.info-block-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.profile-block {
+  display: flex;
+  flex-direction: column;
+  row-gap: 128px;
+}
+
+.info-label {
+  opacity: 0.7;
+  font-weight: 500;
+  font-size: 24px;
+}
+
+.info-text {
+  font-weight: 500;
+  font-size: 24px;
+}
+
+.cta-color {
+  color: #61f453;
+  font-weight: 600;
 }
 
 /* PROFILE end */

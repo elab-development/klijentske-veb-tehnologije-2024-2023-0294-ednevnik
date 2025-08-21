@@ -1,5 +1,6 @@
 import React from "react";
 import NewsletterForm from "./NewsletterForm";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
@@ -11,18 +12,18 @@ function Footer() {
               <img src="../assets/logo.svg" alt="Logo" />
             </a>
             <div className="footer-list">
-              <a href="/" className="menu-item">
+              <Link to="/" className="menu-item">
                 Home
-              </a>
-              <a href="/features" className="menu-item">
+              </Link>
+              <Link to="/features" className="menu-item">
                 Features
-              </a>
-              <a href="/diary" className="menu-item">
+              </Link>
+              <Link to="/diary" className="menu-item">
                 Diary
-              </a>
-              <a href="/blog" className="menu-item">
+              </Link>
+              <Link to="/blog" className="menu-item">
                 Blog
-              </a>
+              </Link>
             </div>
             <div className="footer-list">
               <a href="/" className="menu-item">

@@ -2,8 +2,23 @@ import React from "react";
 import OneBlogPost from "./OneBlogPost";
 import OneTestimonial from "./OneTestimonial";
 import NewsletterForm from "./NewsletterForm";
+import { Link } from "react-router-dom";
+import { fetchTestimonials } from "../models/TestimonialLoader";
+import { useEffect, useState } from "react";
+import { Testimonial } from "../models/Testimonial";
 
-function Home() {
+const Home: React.FC = () => {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+
+  useEffect(() => {
+    const loadTestimonials = async () => {
+      const loadedTestimonials = await fetchTestimonials();
+      setTestimonials(loadedTestimonials);
+    };
+
+    loadTestimonials();
+  }, []);
+
   return (
     <>
       <div className="hero-section margin-b-160">
@@ -27,9 +42,9 @@ function Home() {
                 />
               </h1>
 
-              <a href="/" className="cta primary">
+              <Link to="/register" className="cta primary">
                 Start Writing
-              </a>
+              </Link>
             </div>
 
             <img src="../assets/hero-visual.svg" alt="Hero Visual" />
@@ -89,9 +104,12 @@ function Home() {
                 <OneBlogPost />
               </div>
 
-              <a href="/" className="cta primary blog-cta-btn element-center">
+              <Link
+                to="/blog"
+                className="cta primary blog-cta-btn element-center"
+              >
                 Visit Blog Page
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -129,9 +147,9 @@ function Home() {
               </div>
 
               <div className="testimonials-wrapper">
-                <OneTestimonial />
-                <OneTestimonial />
-                <OneTestimonial />
+                {testimonials.map((t) => (
+                  <OneTestimonial key={t.id} testimonial={t} />
+                ))}
               </div>
             </div>
           </div>
@@ -146,15 +164,15 @@ function Home() {
                 Start managing your mental health the right way, today!
               </h2>
 
-              <a href="/" className="cta primary black-cta">
+              <Link to="/register" className="cta primary black-cta">
                 Register Now
-              </a>
+              </Link>
             </div>
           </div>
         </div>
       </div>
     </>
   );
-}
+};
 
 export default Home;

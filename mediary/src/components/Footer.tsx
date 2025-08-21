@@ -1,4 +1,5 @@
 import React from "react";
+import NewsletterForm from "./NewsletterForm";
 
 function Footer() {
   return (
@@ -38,19 +39,10 @@ function Footer() {
               </a>
             </div>
             <div className="newsletter-wrapper">
-              <form className="newsletter-form" action="/">
-                <h3 className="newsletter-heading">
-                  Subscribe to our newsletter for weekly news!
-                </h3>
-                <input
-                  className="form-field"
-                  type="email"
-                  name="emailField"
-                  id="emailField"
-                  placeholder="email@email.com"
-                />
-                <button className="cta primary">Subscribe Now</button>
-              </form>
+              <h3 className="newsletter-heading">
+                Subscribe to our newsletter for weekly news!
+              </h3>
+              <NewsletterForm />
             </div>
           </div>
           <div className="footer-img-wrapper">

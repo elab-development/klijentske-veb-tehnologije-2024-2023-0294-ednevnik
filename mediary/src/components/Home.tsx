@@ -1,6 +1,7 @@
 import React from "react";
 import OneBlogPost from "./OneBlogPost";
 import OneTestimonial from "./OneTestimonial";
+import NewsletterForm from "./NewsletterForm";
 
 function Home() {
   return (
@@ -105,17 +106,7 @@ function Home() {
                   Get weekly mental health tips delivered to your inbox!
                 </h2>
 
-                <form action="/" className="newsletter-section-form">
-                  <input
-                    type="email"
-                    className="form-field full-width"
-                    placeholder="email@email.com"
-                  />
-
-                  <button className="cta primary blog-cta-btn">
-                    Subscribe Now
-                  </button>
-                </form>
+                <NewsletterForm />
               </div>
               <img
                 src="../assets/newsletter-ebook.svg"

@@ -154,6 +154,7 @@ form button {
   max-width: 340px;
   line-height: 110%;
   letter-spacing: -0.5px;
+  margin-bottom: 16px;
 }
 
 .newsletter-form {
@@ -428,7 +429,7 @@ label {
 .blog-section {
   display: flex;
   flex-direction: column;
-  row-gap: 64px;
+  row-gap: 32px;
 }
 
 .blog-text-wrapper {
@@ -501,12 +502,6 @@ label {
 .newsletter-section-heading {
   max-width: 600px;
   margin-bottom: 32px;
-}
-
-.newsletter-section-form {
-  display: flex;
-  flex-direction: column;
-  row-gap: 12px;
 }
 
 .full-width {

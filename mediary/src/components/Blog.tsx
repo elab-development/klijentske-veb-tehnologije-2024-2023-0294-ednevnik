@@ -1,6 +1,3 @@
-import React from "react";
-import OneBlogPost from "./OneBlogPost";
-
 function Blog() {
   return (
     <>
@@ -45,12 +42,12 @@ function Blog() {
               </div>
 
               <div className="blog-posts-wrapper">
+                {/* <OneBlogPost />
                 <OneBlogPost />
                 <OneBlogPost />
                 <OneBlogPost />
                 <OneBlogPost />
-                <OneBlogPost />
-                <OneBlogPost />
+                <OneBlogPost /> */}
               </div>
 
               <div className="blog-pagination-wrapper">

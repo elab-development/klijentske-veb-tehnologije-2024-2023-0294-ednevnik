@@ -8,9 +8,11 @@ import Features from "./components/Features";
 import Home from "./components/Home";
 import Profile from "./components/Profile";
 import Blog from "./components/Blog";
+import BlogPostPage from "./components/BlogPostPage";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
+import PageNotFound from "./components/PageNotFound";
 
 function App() {
   return (
@@ -26,6 +28,10 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/blogPost/" element={<BlogPostPage />} />
+
+          {/* Catch-all ruta */}
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer />
       </Router>

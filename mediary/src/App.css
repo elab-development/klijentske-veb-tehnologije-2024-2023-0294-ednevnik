@@ -84,6 +84,8 @@ body {
 .menu-item {
   padding: 16px 12px;
   line-height: 110%;
+  border-radius: 8px;
+  transition: background-color 0.25s;
 }
 
 .cta {
@@ -96,6 +98,7 @@ body {
   align-items: center;
   justify-content: center;
   max-width: 184px;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .secondary {
@@ -589,6 +592,7 @@ label {
 .black-cta {
   background-color: #262625;
   color: #f2f2f2;
+  transition: all 0.25s ease-in-out;
   /* max-width: 184px; */
 }
 
@@ -770,3 +774,63 @@ select {
 }
 
 /* BLOG end */
+
+/* BLOGPOST begin */
+
+.bp-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
+.bp-p {
+  max-width: 600px;
+}
+
+.indented {
+  margin-left: 48px;
+}
+
+.bp-bullet-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+}
+
+/* BLOGPOST end */
+
+/* 404 begin */
+
+.vector-line {
+  position: absolute;
+  bottom: -4px;
+  left: 80px;
+  z-index: -1;
+}
+
+.error-heading {
+  position: relative;
+}
+
+/* 404 end */
+
+/* HOVER STATES begin */
+
+.menu-item:hover {
+  background-color: #40403f;
+}
+
+.primary:hover {
+  background-color: hsl(115, 88%, 40%);
+}
+
+.secondary:hover {
+  background-color: rgba(97, 244, 83, 0.25);
+}
+
+.black-cta:hover {
+  background-color: #40403f;
+  color: #61f453;
+}
+
+/* HOVER STATES end */

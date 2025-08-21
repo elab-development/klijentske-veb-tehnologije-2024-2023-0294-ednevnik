@@ -6,9 +6,12 @@ import { Link } from "react-router-dom";
 import { fetchTestimonials } from "../models/TestimonialLoader";
 import { useEffect, useState } from "react";
 import { Testimonial } from "../models/Testimonial";
+import { fetchBlogPosts } from "../models/BlogPostLoader";
+import { BlogPost } from "../models/BlogPost";
 
 const Home: React.FC = () => {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
 
   useEffect(() => {
     const loadTestimonials = async () => {
@@ -16,6 +19,12 @@ const Home: React.FC = () => {
       setTestimonials(loadedTestimonials);
     };
 
+    const loadBlogPosts = async () => {
+      const loadedBlogPosts = await fetchBlogPosts();
+      setBlogPosts(loadedBlogPosts);
+    };
+
+    loadBlogPosts();
     loadTestimonials();
   }, []);
 
@@ -98,10 +107,9 @@ const Home: React.FC = () => {
               </div>
 
               <div className="blog-posts-wrapper">
-                {/* Placeholderi */}
-                <OneBlogPost />
-                <OneBlogPost />
-                <OneBlogPost />
+                {blogPosts.slice(0, 3).map((bp) => (
+                  <OneBlogPost key={bp.id} blogPost={bp} />
+                ))}
               </div>
 
               <Link

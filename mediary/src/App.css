@@ -704,4 +704,74 @@ label {
   top: -24px;
 }
 
+.blog-filter-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+  align-items: start;
+}
+
+.blog-filters-wrapper {
+  display: flex;
+  flex-direction: row;
+  column-gap: 24px;
+  margin-bottom: 48px;
+}
+
+.blog-select-field {
+  width: 288px;
+  background-color: rgba(64, 64, 63, 0.4);
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+}
+
+/* select::after {
+  content: "";
+  position: absolute;
+  right: 0.7em;
+  top: 50%;
+  width: 1em;
+  height: 1em;
+  background: url("../public/assets/arrow.svg") no-repeat center;
+  background-size: contain;
+  transform: translateY(-50%);
+  pointer-events: none;
+} */
+
+.blog-posts-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.blog-pagination-wrapper {
+  display: flex;
+  flex-direction: row;
+  column-gap: 12px;
+  justify-content: end;
+  align-items: center;
+}
+
+.blog-pagination-button {
+  background: none;
+  border: none;
+}
+
+.page-text {
+  opacity: 0.3;
+}
+
+.is-active {
+  opacity: 1;
+}
+
 /* BLOG end */

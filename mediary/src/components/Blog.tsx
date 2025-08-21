@@ -1,4 +1,5 @@
 import React from "react";
+import OneBlogPost from "./OneBlogPost";
 
 function Blog() {
   return (
@@ -23,13 +24,56 @@ function Blog() {
               </p>
             </div>
 
-            <div className="blog-content-wrapper">
+            <div className="blog-content-wrapper margin-b-128">
               <div className="blog-filters-wrapper">
-                <select name="blogTheme" id="blog-theme-select"></select>
-                <select name="blogOrderBy" id="blog-order-by-select"></select>
+                <div className="blog-filter-wrapper">
+                  <p>Theme</p>
+                  <select
+                    name="blogTheme"
+                    id="blog-theme-select"
+                    className="blog-select-field"
+                  ></select>
+                </div>
+                <div className="blog-filter-wrapper">
+                  <p>Order by</p>
+                  <select
+                    name="blogOrderBy"
+                    id="blog-order-by-select"
+                    className="blog-select-field"
+                  ></select>
+                </div>
               </div>
 
-              <div className="blog-posts-wrapper"></div>
+              <div className="blog-posts-wrapper">
+                <OneBlogPost />
+                <OneBlogPost />
+                <OneBlogPost />
+                <OneBlogPost />
+                <OneBlogPost />
+                <OneBlogPost />
+              </div>
+
+              <div className="blog-pagination-wrapper">
+                <button className="blog-pagination-button">
+                  <img
+                    src="../assets/button-arrow-left.svg"
+                    alt="Button Arrow Left"
+                  />
+                </button>
+
+                <div className="blog-page-wrapper">
+                  <span className="page-text is-active">1</span>
+                  &nbsp;&nbsp;&nbsp;
+                  <span className="page-text">2</span>
+                </div>
+
+                <button className="blog-pagination-button">
+                  <img
+                    src="../assets/button-arrow-right.svg"
+                    alt="Button Arrow Left"
+                  />
+                </button>
+              </div>
             </div>
           </div>
         </div>

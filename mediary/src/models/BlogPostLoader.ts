@@ -4,8 +4,6 @@ import { BlogPost } from "./BlogPost";
 export const fetchBlogPosts = async (): Promise<BlogPost[]> => {
   const { data, error } = await supabase.from("blogPosts").select("*");
 
-  console.log(data);
-
   if (error) {
     console.error("Greška pri učitavanju:", error);
     return [];

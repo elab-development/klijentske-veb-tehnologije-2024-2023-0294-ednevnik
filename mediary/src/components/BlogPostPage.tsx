@@ -1,9 +1,44 @@
 import React from "react";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { supabase } from "../models/supabaseClients";
+import { BlogPost } from "../models/BlogPost";
+import PageNotFound from "./PageNotFound";
 
 const BlogPostPage = () => {
+  const { id } = useParams<{ id: string }>();
+  const [post, setPost] = useState<BlogPost | null>(null);
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      if (!id) return;
+      const { data, error } = await supabase
+        .from("blogPosts")
+        .select("*")
+        .eq("imgCode", id)
+        .single();
+
+      if (error) {
+        console.error("Greška:", error);
+      } else {
+        setPost(data);
+      }
+    };
+
+    fetchPost();
+  }, [id]);
+
+  if (!post) return <PageNotFound />;
+
   return (
     <>
       <div className="padding-global">
+        <div className="container">
+          <h1 className="margin-b-96">{post.heading}</h1>
+          <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
+        </div>
+      </div>
+      {/* <div className="padding-global">
         <div className="container">
           <h1 className="margin-b-96">
             5 Simple Mindfulness Exercises to Boost Your Daily Calm
@@ -81,7 +116,7 @@ const BlogPostPage = () => {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

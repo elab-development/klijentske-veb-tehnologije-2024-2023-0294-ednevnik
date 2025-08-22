@@ -1,4 +1,27 @@
+import { useState, useEffect } from "react";
+import OneBlogPost from "./OneBlogPost";
+import { fetchBlogPosts } from "../models/BlogPostLoader";
+
+interface BlogPost {
+  id: number;
+  imgCode: number;
+  heading: string;
+  cardDesc: string;
+  content: string;
+}
+
 function Blog() {
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+
+  useEffect(() => {
+    const loadBlogPosts = async () => {
+      const loadedBlogPosts = await fetchBlogPosts();
+      setBlogPosts(loadedBlogPosts);
+    };
+
+    loadBlogPosts();
+  }, []);
+
   return (
     <>
       <div className="padding-global">
@@ -42,12 +65,9 @@ function Blog() {
               </div>
 
               <div className="blog-posts-wrapper">
-                {/* <OneBlogPost />
-                <OneBlogPost />
-                <OneBlogPost />
-                <OneBlogPost />
-                <OneBlogPost />
-                <OneBlogPost /> */}
+                {blogPosts.map((bp) => (
+                  <OneBlogPost key={bp.id} blogPost={bp} />
+                ))}
               </div>
 
               <div className="blog-pagination-wrapper">

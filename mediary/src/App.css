@@ -98,7 +98,7 @@ body {
   align-items: center;
   justify-content: center;
   max-width: 184px;
-  transition: background-color 0.2s ease-in-out;
+  transition: all 0.2s ease;
 }
 
 .secondary {
@@ -592,7 +592,7 @@ label {
 .black-cta {
   background-color: #262625;
   color: #f2f2f2;
-  transition: all 0.25s ease-in-out;
+  transition: all 0.2s ease;
   /* max-width: 184px; */
 }
 

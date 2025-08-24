@@ -284,6 +284,10 @@ label {
   margin-bottom: 96px;
 }
 
+.margin-b-64 {
+  margin-bottom: 64px;
+}
+
 .features-wrapper {
   display: flex;
   flex-direction: column;
@@ -763,6 +767,14 @@ select {
 .blog-pagination-button {
   background: none;
   border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  background-color: #333332;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.15s ease-in;
 }
 
 .page-text {
@@ -777,6 +789,10 @@ select {
 
 /* BLOGPOST begin */
 
+.font-size-32 {
+  font-size: 32px;
+}
+
 .bp-text-wrapper {
   display: flex;
   flex-direction: column;
@@ -787,7 +803,7 @@ select {
   max-width: 600px;
 }
 
-.indented {
+.is-indented {
   margin-left: 48px;
 }
 
@@ -795,6 +811,31 @@ select {
   display: flex;
   flex-direction: column;
   row-gap: 40px;
+}
+
+.continue-reading-wrapper {
+  display: flex;
+  flex-direction: row;
+  column-gap: 24px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.continue-reading-post {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.continue-reading-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  justify-content: start;
+}
+
+.continue-reading-content-wrapper a {
+  max-width: 127px;
 }
 
 /* BLOGPOST end */
@@ -831,6 +872,10 @@ select {
 .black-cta:hover {
   background-color: #40403f;
   color: #61f453;
+}
+
+.blog-pagination-button:hover {
+  background-color: hsl(60, 1%, 25%);
 }
 
 /* HOVER STATES end */

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import OneBlogPost from "./OneBlogPost";
 import { fetchBlogPosts } from "../models/BlogPostLoader";
+import { JSX } from "react";
 
 interface BlogPost {
   id: number;
@@ -11,7 +12,13 @@ interface BlogPost {
 }
 
 function Blog() {
+  const [page, setPage] = useState(1);
+
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+
+  const cardsPerPage = 6;
+  const indexOfLastCard = page * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
 
   useEffect(() => {
     const loadBlogPosts = async () => {
@@ -21,6 +28,12 @@ function Blog() {
 
     loadBlogPosts();
   }, []);
+
+  const showBlogPosts = (): JSX.Element[] => {
+    return blogPosts
+      .slice(indexOfFirstCard, indexOfLastCard)
+      .map((bp) => <OneBlogPost key={bp.id} blogPost={bp} />);
+  };
 
   return (
     <>
@@ -64,14 +77,15 @@ function Blog() {
                 </div>
               </div>
 
-              <div className="blog-posts-wrapper">
-                {blogPosts.map((bp) => (
-                  <OneBlogPost key={bp.id} blogPost={bp} />
-                ))}
-              </div>
+              <div className="blog-posts-wrapper">{showBlogPosts()}</div>
 
               <div className="blog-pagination-wrapper">
-                <button className="blog-pagination-button">
+                <button
+                  className="blog-pagination-button"
+                  onClick={() => {
+                    setPage(1);
+                  }}
+                >
                   <img
                     src="../assets/button-arrow-left.svg"
                     alt="Button Arrow Left"
@@ -79,12 +93,25 @@ function Blog() {
                 </button>
 
                 <div className="blog-page-wrapper">
-                  <span className="page-text is-active">1</span>
+                  <span
+                    className={`page-text ${page === 1 ? "is-active" : ""}`}
+                  >
+                    1
+                  </span>
                   &nbsp;&nbsp;&nbsp;
-                  <span className="page-text">2</span>
+                  <span
+                    className={`page-text ${page === 2 ? "is-active" : ""}`}
+                  >
+                    2
+                  </span>
                 </div>
 
-                <button className="blog-pagination-button">
+                <button
+                  className="blog-pagination-button"
+                  onClick={() => {
+                    setPage(2);
+                  }}
+                >
                   <img
                     src="../assets/button-arrow-right.svg"
                     alt="Button Arrow Left"

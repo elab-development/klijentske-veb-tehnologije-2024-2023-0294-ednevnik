@@ -11,6 +11,13 @@ export const fetchBlogPosts = async (): Promise<BlogPost[]> => {
 
   return data.map(
     (bp: any) =>
-      new BlogPost(bp.id, bp.imgCode, bp.heading, bp.cardDesc, bp.content)
+      new BlogPost(
+        bp.id,
+        bp.imgCode,
+        bp.heading,
+        bp.cardDesc,
+        bp.content,
+        bp.tags
+      )
   );
 };

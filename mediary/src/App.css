@@ -727,6 +727,8 @@ label {
   padding: 12px;
   border-radius: 8px;
   border: none;
+  font-size: 16px;
+  color: rgba(242, 242, 242, 0.5);
 }
 
 select {
@@ -736,18 +738,12 @@ select {
   position: relative;
 }
 
-/* select::after {
-  content: "";
-  position: absolute;
-  right: 0.7em;
-  top: 50%;
-  width: 1em;
-  height: 1em;
-  background: url("../public/assets/arrow.svg") no-repeat center;
-  background-size: contain;
-  transform: translateY(-50%);
-  pointer-events: none;
-} */
+option {
+  color: rgba(242, 242, 242, 1);
+  background-color: rgba(64, 64, 63);
+  font-size: 16px;
+  padding: 8px;
+}
 
 .blog-posts-wrapper {
   display: grid;
@@ -783,6 +779,10 @@ select {
 
 .is-active {
   opacity: 1;
+}
+
+.invisible {
+  display: none;
 }
 
 /* BLOG end */

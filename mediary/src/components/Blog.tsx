@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import OneBlogPost from "./OneBlogPost";
 import { fetchBlogPosts } from "../models/BlogPostLoader";
 import { JSX } from "react";
+import { supabase } from "../models/supabaseClients";
 
 interface BlogPost {
   id: number;
@@ -9,11 +10,11 @@ interface BlogPost {
   heading: string;
   cardDesc: string;
   content: string;
+  tags: string;
 }
 
 function Blog() {
   const [page, setPage] = useState(1);
-
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
 
   const cardsPerPage = 6;
@@ -29,10 +30,69 @@ function Blog() {
     loadBlogPosts();
   }, []);
 
-  const showBlogPosts = (): JSX.Element[] => {
-    return blogPosts
-      .slice(indexOfFirstCard, indexOfLastCard)
-      .map((bp) => <OneBlogPost key={bp.id} blogPost={bp} />);
+  // const showBlogPosts = (): JSX.Element[] => {
+  //   return blogPosts
+  //     .slice(indexOfFirstCard, indexOfLastCard)
+  //     .map((bp) => <OneBlogPost key={bp.id} blogPost={bp} />);
+  // };
+
+  const [tags, setTags] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      const { data, error } = await supabase.from("blogPosts").select("tags");
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      if (data) {
+        // console.log(data);
+        let allTags: string[] = [];
+
+        data.forEach((tagString) => {
+          let rowTags = tagString.tags.split(" ");
+          rowTags.forEach((rowTag: string) => {
+            allTags.push(rowTag);
+          });
+        });
+
+        // console.log(allTags);
+
+        const uniqueTags = Array.from(new Set(allTags));
+
+        // console.log(uniqueTags);
+        setTags(uniqueTags);
+      }
+    };
+
+    fetchTags();
+  }, []);
+
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+
+  const loadFilteredPosts = (): JSX.Element[] => {
+    const filteredPosts =
+      !selectedTag || selectedTag === ""
+        ? blogPosts.slice(indexOfFirstCard, indexOfLastCard)
+        : blogPosts.filter((bp) => {
+            const tags = bp.tags.split(" ");
+            return tags.includes(selectedTag);
+          });
+
+    const elementRow: JSX.Element[] = filteredPosts.map((bp) => (
+      <OneBlogPost key={bp.id} blogPost={bp} />
+    ));
+
+    if (elementRow.length < 6) {
+      document.getElementById("pagination")?.classList.add("invisible");
+      console.log(document.getElementById("pagination"));
+    } else {
+      document.getElementById("pagination")?.classList.remove("invisible");
+    }
+
+    return elementRow;
   };
 
   return (
@@ -65,7 +125,17 @@ function Blog() {
                     name="blogTheme"
                     id="blog-theme-select"
                     className="blog-select-field"
-                  ></select>
+                    onChange={(e) => {
+                      setSelectedTag(e.target.value || null);
+                    }}
+                  >
+                    <option value="">Select tag...</option>
+                    {tags.map((tag) => (
+                      <option key={tag} value={tag}>
+                        {tag}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div className="blog-filter-wrapper">
                   <p>Order by</p>
@@ -73,13 +143,17 @@ function Blog() {
                     name="blogOrderBy"
                     id="blog-order-by-select"
                     className="blog-select-field"
-                  ></select>
+                  >
+                    <option value="">Select option...</option>
+                    <option value="title_as">Title Ascending</option>
+                    <option value="title_des">Title Descending</option>
+                  </select>
                 </div>
               </div>
 
-              <div className="blog-posts-wrapper">{showBlogPosts()}</div>
+              <div className="blog-posts-wrapper">{loadFilteredPosts()}</div>
 
-              <div className="blog-pagination-wrapper">
+              <div id="pagination" className="blog-pagination-wrapper">
                 <button
                   className="blog-pagination-button"
                   onClick={() => {

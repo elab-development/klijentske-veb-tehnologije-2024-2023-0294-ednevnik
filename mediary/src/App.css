@@ -32,7 +32,7 @@ h3 {
 p {
   opacity: 0.7;
   font-weight: 300;
-  line-height: 130%;
+  line-height: 150%;
 }
 
 body {
@@ -181,6 +181,16 @@ form button {
 .form-field::placeholder {
   font-weight: 400;
   font-size: 16px;
+}
+
+.form-field:focus {
+  background-color: hsl(60, 1%, 30%);
+  outline: none;
+}
+
+.form-field:active {
+  background-color: hsl(60, 1%, 27.5%);
+  outline: none;
 }
 
 .footer-img-wrapper {
@@ -793,10 +803,26 @@ option {
   font-size: 32px;
 }
 
+.max-width-600 {
+  max-width: 600px;
+}
+
 .bp-text-wrapper {
   display: flex;
   flex-direction: column;
-  row-gap: 8px;
+  row-gap: 16px;
+}
+
+.is-arrow {
+  flex-direction: row;
+  align-items: start;
+  column-gap: 24px;
+}
+
+.bp-arrow-img {
+  position: relative;
+  transform: rotateZ(-90deg);
+  top: 10px;
 }
 
 .bp-p {

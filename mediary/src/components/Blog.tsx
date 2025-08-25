@@ -48,7 +48,6 @@ function Blog() {
       }
 
       if (data) {
-        // console.log(data);
         let allTags: string[] = [];
 
         data.forEach((tagString) => {
@@ -58,11 +57,7 @@ function Blog() {
           });
         });
 
-        // console.log(allTags);
-
         const uniqueTags = Array.from(new Set(allTags));
-
-        // console.log(uniqueTags);
         setTags(uniqueTags);
       }
     };
@@ -71,23 +66,35 @@ function Blog() {
   }, []);
 
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [sortType, setSortType] = useState<string>("");
 
   const loadFilteredPosts = (): JSX.Element[] => {
     const filteredPosts =
       !selectedTag || selectedTag === ""
-        ? blogPosts.slice(indexOfFirstCard, indexOfLastCard)
+        ? blogPosts
         : blogPosts.filter((bp) => {
             const tags = bp.tags.split(" ");
             return tags.includes(selectedTag);
           });
 
-    const elementRow: JSX.Element[] = filteredPosts.map((bp) => (
-      <OneBlogPost key={bp.id} blogPost={bp} />
-    ));
+    let sortedPosts = [...filteredPosts];
+
+    if (sortType === "title_as") {
+      sortedPosts.sort((post1, post2) =>
+        post1.heading.localeCompare(post2.heading)
+      );
+    } else if (sortType === "title_des") {
+      sortedPosts.sort((post1, post2) =>
+        post2.heading.localeCompare(post1.heading)
+      );
+    }
+
+    const elementRow: JSX.Element[] = sortedPosts
+      .slice(indexOfFirstCard, indexOfLastCard)
+      .map((bp) => <OneBlogPost key={bp.id} blogPost={bp} />);
 
     if (elementRow.length < 6) {
       document.getElementById("pagination")?.classList.add("invisible");
-      console.log(document.getElementById("pagination"));
     } else {
       document.getElementById("pagination")?.classList.remove("invisible");
     }
@@ -129,7 +136,7 @@ function Blog() {
                       setSelectedTag(e.target.value || null);
                     }}
                   >
-                    <option value="">Select tag...</option>
+                    <option value="">(Default) Select tag</option>
                     {tags.map((tag) => (
                       <option key={tag} value={tag}>
                         {tag}
@@ -143,8 +150,9 @@ function Blog() {
                     name="blogOrderBy"
                     id="blog-order-by-select"
                     className="blog-select-field"
+                    onChange={(e) => setSortType(e.target.value)}
                   >
-                    <option value="">Select option...</option>
+                    <option value="">(Default) Select option</option>
                     <option value="title_as">Title Ascending</option>
                     <option value="title_des">Title Descending</option>
                   </select>

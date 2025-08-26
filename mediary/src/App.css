@@ -888,7 +888,8 @@ option {
 }
 
 .primary:hover {
-  background-color: hsl(115, 88%, 40%);
+  background-color: hsl(115, 60%, 50%);
+  color: #f2f2f2;
 }
 
 .secondary:hover {
@@ -901,7 +902,16 @@ option {
 }
 
 .blog-pagination-button:hover {
-  background-color: hsl(60, 1%, 25%);
+  background-color: hsl(60, 1%, 35%);
+}
+
+.delete-secondary:hover {
+  background-color: rgba(244, 115, 83, 0.25);
+}
+
+.delete-primary:hover {
+  background-color: hsl(12, 60%, 50%);
+  color: #f2f2f2;
 }
 
 /* HOVER STATES end */

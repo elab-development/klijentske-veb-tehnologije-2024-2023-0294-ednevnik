@@ -8,8 +8,11 @@ import { useEffect, useState } from "react";
 import { Testimonial } from "../models/Testimonial";
 import { fetchBlogPosts } from "../models/BlogPostLoader";
 import { BlogPost } from "../models/BlogPost";
+import { useAuth } from "./AuthProvider";
 
 const Home: React.FC = () => {
+  const { user } = useAuth();
+
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
 
@@ -51,9 +54,15 @@ const Home: React.FC = () => {
                 />
               </h1>
 
-              <Link to="/register" className="cta primary">
-                Start Writing
-              </Link>
+              {!user ? (
+                <Link to="/register" className="cta primary">
+                  Start Writing
+                </Link>
+              ) : (
+                <Link to="/diary" className="cta primary">
+                  Start Writing
+                </Link>
+              )}
             </div>
 
             <img src="../assets/hero-visual.svg" alt="Hero Visual" />
@@ -172,9 +181,15 @@ const Home: React.FC = () => {
                 Start managing your mental health the right way, today!
               </h2>
 
-              <Link to="/register" className="cta primary black-cta">
-                Register Now
-              </Link>
+              {!user ? (
+                <Link to="/register" className="cta primary black-cta">
+                  Register Now
+                </Link>
+              ) : (
+                <Link to="/diary" className="cta primary black-cta">
+                  Register Now
+                </Link>
+              )}
             </div>
           </div>
         </div>

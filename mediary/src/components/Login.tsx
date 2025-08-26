@@ -1,6 +1,34 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "../models/supabaseClients";
+import { useState } from "react";
+import { loginUser } from "../models/loginUser";
 
 function Login() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    try {
+      const data = await loginUser(email, password);
+
+      console.log(supabase);
+      console.log(data);
+      console.log(email);
+      console.log(password);
+
+      navigate("/diary", { replace: true });
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message);
+    }
+  };
+
   return (
     <div className="padding-global">
       <div className="container">
@@ -10,14 +38,17 @@ function Login() {
               Login to begin your journey to better mental health!
             </h1>
 
-            <form action="/" className="login-form">
+            <form onSubmit={onSubmit} className="login-form">
               <div className="field-wrapper">
                 <label htmlFor="emailField">Email</label>
                 <input
                   className="form-field"
                   placeholder="email@email.com"
                   type="email"
+                  value={email}
                   name="emailField"
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -26,8 +57,11 @@ function Login() {
                 <input
                   className="form-field"
                   placeholder="password123"
+                  value={password}
                   type="password"
                   name="passwordField"
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
 

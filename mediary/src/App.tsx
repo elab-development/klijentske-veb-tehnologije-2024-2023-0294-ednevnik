@@ -13,6 +13,7 @@ import BlogPostPage from "./components/BlogPostPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import PageNotFound from "./components/PageNotFound";
+import Diary from "./components/Diary";
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/features" element={<Features />} />
-          <Route path="/diary" />
+          <Route path="/diary" element={<Diary />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login />} />

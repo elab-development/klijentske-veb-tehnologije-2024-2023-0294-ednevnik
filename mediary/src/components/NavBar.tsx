@@ -1,7 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "./AuthProvider";
+import { logoutUser } from "../models/logoutUser";
 
 function NavBar() {
+  const { user } = useAuth();
+
   return (
     <div className="padding-global">
       <div className="container">
@@ -26,12 +30,20 @@ function NavBar() {
               <Link to="/profile" className="menu-item">
                 Profile
               </Link>
-              <Link to="/login" className="cta secondary">
-                Login
-              </Link>
-              <Link to="/register" className="cta primary">
-                Register Now
-              </Link>
+              {user ? (
+                <Link to="/login" className="cta secondary">
+                  Logout
+                </Link>
+              ) : (
+                <>
+                  <Link to="/login" className="cta secondary">
+                    Login
+                  </Link>
+                  <Link to="/register" className="cta primary">
+                    Register Now
+                  </Link>
+                </>
+              )}
             </div>
           </div>
           <img

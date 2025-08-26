@@ -1,6 +1,14 @@
 import React from "react";
+import { useAuth } from "./AuthProvider";
+import { Navigate } from "react-router-dom";
 
 function Profile() {
+  const { user } = useAuth();
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
   return (
     <div className="padding-global">
       <div className="container">

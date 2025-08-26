@@ -14,7 +14,7 @@ function Login() {
     try {
       const data = await loginUser(email, password);
 
-      // console.log(data);
+      console.log(data);
 
       navigate("/diary", { replace: true });
     } catch (err: any) {

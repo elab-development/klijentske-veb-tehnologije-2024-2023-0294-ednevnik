@@ -1,9 +1,62 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "./AuthProvider";
 import { Navigate } from "react-router-dom";
+import { supabase } from "../models/supabaseClients";
+
+interface UserData {
+  id: string;
+  email: string;
+  name: string;
+  created_at: string;
+  newsletter: string;
+}
 
 function Profile() {
   const { user } = useAuth();
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [newsletter, setNewsletter] = useState("No");
+
+  const fetchUser = async () => {
+    const { data: userDataSupabase, error: userError } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+    if (userError) console.error(userError);
+
+    const dateString = userDataSupabase.created_at;
+    const date = new Date(dateString);
+
+    userDataSupabase.created_at = `${String(date.getDate()).padStart(
+      2,
+      "0"
+    )}.${String(date.getMonth() + 1).padStart(2, "0")}.${String(
+      date.getFullYear()
+    )}.`;
+
+    const { data: newsletterEmails, error: newsletterError } = await supabase
+      .from("newsletter")
+      .select("*");
+
+    newsletterEmails?.forEach((object) => {
+      if (object.email === userDataSupabase?.email) {
+        setNewsletter("Yes");
+      }
+    });
+
+    if (newsletterError) console.error(newsletterError);
+
+    setUserData(userDataSupabase);
+  };
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    fetchUser();
+  }, [user]);
 
   if (!user) {
     return <Navigate to="/login" replace />;
@@ -13,7 +66,7 @@ function Profile() {
     <div className="padding-global">
       <div className="container">
         <div className="margin-b-160">
-          <h1 className="margin-b-64">Welcome back, User!</h1>
+          <h1 className="margin-b-64">Welcome back, {userData?.name}!</h1>
 
           <div className="profile-wrapper">
             <div className="profile-block">
@@ -23,19 +76,15 @@ function Profile() {
               <div className="info-wrapper">
                 <div className="info-block-wrapper">
                   <span className="info-label">Email:</span>
-                  <span className="info-text">email@gmail.com</span>
-                </div>
-                <div className="info-block-wrapper">
-                  <span className="info-label">Password:</span>
-                  <span className="info-text">password123</span>
+                  <span className="info-text">{userData?.email}</span>
                 </div>
                 <div className="info-block-wrapper">
                   <span className="info-label">First registered:</span>
-                  <span className="info-text">10.08.2025</span>
+                  <span className="info-text">{userData?.created_at}</span>
                 </div>
                 <div className="info-block-wrapper">
                   <span className="info-label">Newsletter:</span>
-                  <span className="info-text">No</span>
+                  <span className="info-text">{newsletter}</span>
                 </div>
               </div>
             </div>

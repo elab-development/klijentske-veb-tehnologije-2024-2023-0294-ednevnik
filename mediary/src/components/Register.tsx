@@ -21,7 +21,7 @@ function Register() {
     try {
       const data = await registerUser(email, password, name, surname);
 
-      // console.log(data);
+      console.log(data);
 
       navigate("/diary", { replace: true });
     } catch (err: any) {

@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../models/supabaseClients";
 import { useState } from "react";
 import { loginUser } from "../models/loginUser";
 
@@ -8,24 +7,18 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
 
     try {
       const data = await loginUser(email, password);
 
-      console.log(supabase);
-      console.log(data);
-      console.log(email);
-      console.log(password);
+      // console.log(data);
 
       navigate("/diary", { replace: true });
     } catch (err: any) {
       console.error(err);
-      setError(err.message);
     }
   };
 

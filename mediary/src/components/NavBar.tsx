@@ -31,7 +31,11 @@ function NavBar() {
                 Profile
               </Link>
               {user ? (
-                <Link to="/login" className="cta secondary">
+                <Link
+                  to="/login"
+                  onClick={logoutUser}
+                  className="cta secondary"
+                >
                   Logout
                 </Link>
               ) : (

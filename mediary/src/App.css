@@ -915,3 +915,150 @@ option {
 }
 
 /* HOVER STATES end */
+
+/* DIARY begin */
+
+.diary-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  align-items: end;
+}
+
+.diary-month-year {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -1px;
+}
+
+.day-name-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.diary {
+  width: 100%;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
+.day-name {
+  font-size: 16px;
+  font-weight: 500;
+  opacity: 0.7;
+  width: 100%;
+  text-align: center;
+}
+
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(5, 150px);
+  width: 100%;
+}
+
+.add-btn {
+  border-radius: 6px;
+  background-color: rgba(242, 242, 242, 0.1);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.15s ease-in;
+}
+
+.is-top-left-corner {
+  border-top-left-radius: 12px;
+}
+
+.is-top-right-corner {
+  border-top-right-radius: 12px;
+}
+
+.is-bottom-right-corner {
+  border-bottom-right-radius: 12px;
+}
+
+.is-bottom-left-corner {
+  border-bottom-left-radius: 12px;
+}
+
+.day-block {
+  position: relative;
+  min-height: 150px;
+  padding: 8px;
+  background-color: #333332;
+  border: 1px solid rgba(242, 242, 242, 0.1);
+  transition: all 0.05s ease-in;
+}
+
+.day-block:hover {
+  background-color: #40403e;
+}
+
+.day-block:hover .diary-btn-wrapper {
+  opacity: 1;
+}
+
+.day-number {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0px;
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+}
+
+.is-add {
+  background-color: rgba(97, 244, 83, 0.1);
+}
+
+.is-add:hover {
+  background-color: rgba(97, 244, 83, 0.25);
+}
+
+.is-remove {
+  background-color: rgba(246, 88, 88, 0.1);
+}
+
+.is-remove:hover {
+  background-color: rgba(246, 88, 88, 0.25);
+}
+
+.is-menu:hover {
+  background-color: rgba(125, 201, 255, 0.25);
+}
+
+.diary-btn-wrapper {
+  display: flex;
+  flex-direction: row;
+  column-gap: 4px;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  opacity: 0;
+  transition: opacity 0.05s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.wrong-month {
+  opacity: 0.3;
+}
+
+.day-block.wrong-month:hover {
+  background-color: #333332;
+}
+
+/* DIARY end */

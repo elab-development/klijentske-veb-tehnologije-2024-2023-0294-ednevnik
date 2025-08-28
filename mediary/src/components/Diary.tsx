@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
 import { supabase } from "../models/supabaseClients";
+import { EmotionalState } from "../models/EmotionalState";
 
 interface CalendarCell {
   date: number | null;
@@ -9,10 +10,17 @@ interface CalendarCell {
 }
 
 const Diary = () => {
+  const date = new Date();
+  const currentMonth = date.getMonth();
+  const year = date.getFullYear();
+
   const { user } = useAuth();
   const [firstName, setFirstName] = useState("");
+  const [states, setStates] = useState<EmotionalState[]>([]);
 
   const loadUser = async () => {
+    if (!user?.id) return;
+
     const { data: userName, error: userNameError } = await supabase
       .from("users")
       .select("name")
@@ -31,15 +39,51 @@ const Diary = () => {
     loadUser();
   });
 
+  useEffect(() => {
+    const loadUserStates = async (year: number, month: number) => {
+      if (!user?.id) return;
+
+      const { data, error } = await supabase
+        .from("emotionalStates")
+        .select("*")
+        .eq("userID", user.id)
+        .gte("date", `${year}-${String(month + 1).padStart(2, "0")}-01`)
+        .lte(
+          "date",
+          `${year}-${String(month + 1).padStart(
+            2,
+            "0"
+          )}-${new Date().getDate()}`
+        );
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      let states: EmotionalState[] = [];
+
+      if (data) {
+        data.map((object) => {
+          if (object) {
+            states.push(new EmotionalState(object));
+          }
+        });
+      }
+
+      setStates(states);
+    };
+
+    loadUserStates(year, new Date().getMonth());
+  }, [user, year, currentMonth]);
+
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  const date = new Date();
   const month = date.toLocaleDateString("en-US", {
     month: "long",
   });
-  const year = date.getFullYear();
 
   const closeButtons = document.querySelectorAll(".modal-close-btn");
 
@@ -89,10 +133,14 @@ const Diary = () => {
   function generateCalendar(year: number, month: number): CalendarCell[] {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
+
     let startDay = firstDay.getDay();
     startDay = startDay === 0 ? 6 : startDay - 1;
+
     const daysInMonth = lastDay.getDate();
-    const totalCells = 35;
+
+    let totalCells = 35;
+    if (startDay + totalCells > 39) totalCells = 42;
 
     const cells: CalendarCell[] = [];
 
@@ -108,11 +156,32 @@ const Diary = () => {
     return cells;
   }
 
+  const cells = generateCalendar(year, currentMonth);
+  const rows = Math.ceil(cells.length / 7);
+
+  function hexToRgba(hex: string, opacity: number) {
+    const cleanedHex = hex.replace("#", "");
+
+    const fullHex =
+      cleanedHex.length === 3
+        ? cleanedHex
+            .split("")
+            .map((c) => c + c)
+            .join("")
+        : cleanedHex;
+
+    const r = parseInt(fullHex.substring(0, 2), 16);
+    const g = parseInt(fullHex.substring(2, 4), 16);
+    const b = parseInt(fullHex.substring(4, 6), 16);
+
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+  }
+
   return (
     <>
       <div className="padding-global">
         <div className="container">
-          <h1 className="margin-b-128">{firstName}'s mental health diary</h1>
+          <h1 className="margin-b-64">{firstName}'s mental health diary</h1>
           <div className="diary-wrapper margin-b-160">
             <span className="diary-month-year">
               {month}, {year}.
@@ -127,7 +196,10 @@ const Diary = () => {
                 <span className="day-name">Saturday</span>
                 <span className="day-name">Sunday</span>
               </div>
-              <div className="days-grid">
+              <div
+                className="days-grid"
+                style={{ gridTemplateRows: `repeat(${rows}, 150px)` }}
+              >
                 {/* Days Modals */}
                 <div className="modals-wrapper is-add-modal-wrapper is-invisible">
                   <div className="modal is-add-modal">
@@ -219,59 +291,74 @@ const Diary = () => {
                   <div className="day-number">01</div>
                 </div> */}
 
-                {generateCalendar(year, new Date().getMonth()).map(
-                  (cell, index) => {
-                    let borderRadius = "";
-                    if (index === 0) borderRadius = "12px 0 0 0";
-                    if (index === 6) borderRadius = "0 12px 0 0";
-                    if (index === 28) borderRadius = "0 0 0 12px";
-                    if (index === 34) borderRadius = "0 0 12px 0";
+                {cells.map((cell, index) => {
+                  const totalCells = cells.length;
+                  const cols = 7;
 
-                    return (
-                      <div
-                        key={index}
-                        className={`day-block ${
-                          cell.currentMonth ? "" : "opacity-25"
-                        }`}
-                        style={{ borderRadius }}
-                      >
-                        <div className="add-btn is-absolute">
+                  let borderRadius = "";
+                  if (index === 0) borderRadius = "12px 0 0 0";
+                  if (index === cols - 1) borderRadius = "0 12px 0 0";
+                  if (index === totalCells - cols) borderRadius = "0 0 0 12px";
+                  if (index === totalCells - 1) borderRadius = "0 0 12px 0";
+
+                  return (
+                    <div
+                      key={index}
+                      className={`day-block ${
+                        cell.currentMonth ? "" : "wrong-month"
+                      }`}
+                      style={{ borderRadius }}
+                    >
+                      <div id="menuButton" className="add-btn is-absolute">
+                        <img
+                          src="../assets/plus-non-hover.svg"
+                          alt="Plus Icon"
+                        />
+                      </div>
+
+                      <div className="diary-btn-wrapper">
+                        <div className="add-btn is-add" id="openAdd">
                           <img
-                            src="../assets/plus-non-hover.svg"
-                            alt="Plus Icon"
+                            src="../assets/green-plus.svg"
+                            alt="Green Plus"
                           />
                         </div>
-
-                        <div className="diary-btn-wrapper">
-                          <div className="add-btn is-add" id="openAdd">
-                            <img
-                              src="../assets/green-plus.svg"
-                              alt="Green Plus"
-                            />
-                          </div>
-                          <div className="add-btn is-remove" id="openRemove">
-                            <img src="../assets/red-x.svg" alt="Red X" />
-                          </div>
-                          <div className="add-btn is-menu">
-                            <img
-                              src="../assets/blue-menu.svg"
-                              alt="Blue Menu"
-                            />
-                          </div>
+                        <div className="add-btn is-remove" id="openRemove">
+                          <img src="../assets/red-x.svg" alt="Red X" />
                         </div>
-
-                        <div className="day-tags-wrapper">
-                          {/* <div className="tag-circles"></div>
-                          <div className="tag"></div> */}
-                        </div>
-
-                        <div className="day-number">
-                          {cell.date ? String(cell.date).padStart(2, "0") : ""}
+                        <div className="add-btn is-menu">
+                          <img src="../assets/blue-menu.svg" alt="Blue Menu" />
                         </div>
                       </div>
-                    );
-                  }
-                )}
+
+                      <div className="day-tags-wrapper">
+                        {/* <div className="tag-circles"></div>
+                          <div className="tag"></div> */}
+                        {states.slice(0, 2).map((state) => {
+                          return cell.date ===
+                            new Date(state.date).getDate() ? (
+                            <div
+                              className="tag"
+                              style={{
+                                color: `${state.color}`,
+                                border: `1px solid ${state.color}`,
+                                backgroundColor: hexToRgba(state.color, 0.1),
+                              }}
+                            >
+                              {state.stateName}
+                            </div>
+                          ) : (
+                            ""
+                          );
+                        })}
+                      </div>
+
+                      <div className="day-number">
+                        {cell.date ? String(cell.date).padStart(2, "0") : ""}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

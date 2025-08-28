@@ -84,8 +84,6 @@ function Profile() {
   const deleteOpenModalBtn = document.getElementById("deleteOpenModal");
   const deleteCloseModalBtn = document.getElementById("deleteCloseModal");
 
-  console.log(deleteCloseModalBtn);
-
   const modalWrapper = document.getElementsByClassName(
     "delete-modal-wrapper"
   )[0];

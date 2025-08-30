@@ -18,6 +18,11 @@ const Diary = () => {
   const [firstName, setFirstName] = useState("");
   const [states, setStates] = useState<EmotionalState[]>([]);
 
+  const [stateName, setStateName] = useState("");
+  const [stateDescription, setStateDescription] = useState("");
+  const [stateColor, setStateColor] = useState("");
+  const [stateDate, setStateDate] = useState("");
+
   const loadUser = async () => {
     if (!user?.id) return;
 
@@ -66,7 +71,15 @@ const Diary = () => {
       if (data) {
         data.map((object) => {
           if (object) {
-            states.push(new EmotionalState(object));
+            states.push(
+              new EmotionalState(
+                object.userID,
+                object.stateName,
+                object.stateDesc,
+                object.color,
+                object.date
+              )
+            );
           }
         });
       }
@@ -177,6 +190,72 @@ const Diary = () => {
     return `rgba(${r}, ${g}, ${b}, ${opacity})`;
   }
 
+  const addEmotionalState = async () => {
+    if (!user) return;
+
+    console.log(`State date: ${stateDate}`);
+
+    const newState: EmotionalState = new EmotionalState(
+      user.id,
+      stateName,
+      stateDescription,
+      stateColor,
+      stateDate
+    );
+
+    const { error } = await supabase.from("emotionalStates").insert([newState]);
+
+    if (error) {
+      console.error("Error adding emotional state:", error);
+      return;
+    }
+
+    const importedState = new EmotionalState(
+      user.id,
+      stateName,
+      stateDescription,
+      stateColor,
+      stateDate
+    );
+    setStates((prev) => [...prev, importedState]);
+
+    // console.log("Successfully added.");
+    // console.log(states);
+
+    document
+      .querySelector(".is-add-modal-wrapper")
+      ?.classList.add("is-invisible");
+
+    setStateName("");
+    setStateDescription("");
+    setStateColor("");
+    setStateDate("");
+  };
+
+  const deleteUserDayStates = async (date: string) => {
+    if (!user) return;
+
+    const { error } = await supabase
+      .from("emotionalStates")
+      .delete()
+      .eq("userID", user?.id)
+      .eq("date", date);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    setStates((prev) => prev.filter((s) => s.date !== date));
+
+    // console.log(date);
+    // console.log(states);
+
+    document
+      .querySelector(".is-remove-modal-wrapper")
+      ?.classList.add("is-invisible");
+  };
+
   return (
     <>
       <div className="padding-global">
@@ -212,20 +291,39 @@ const Diary = () => {
 
                     <div className="modal-group">
                       <p>How are you feeling today?</p>
-                      <input type="text" className="form-field form-width" />
+                      <input
+                        type="text"
+                        value={stateName}
+                        onChange={(e) => setStateName(e.target.value)}
+                        className="form-field form-width"
+                      />
                     </div>
 
                     <div className="modal-group">
                       <p>Describe it by the color</p>
-                      <input type="color" className="form-field is-color" />
+                      <input
+                        type="color"
+                        value={stateColor}
+                        onChange={(e) => setStateColor(e.target.value)}
+                        className="is-color"
+                      />
                     </div>
 
                     <div className="modal-group">
                       <p>Note more about it:</p>
-                      <textarea className="form-field" />
+                      <textarea
+                        value={stateDescription}
+                        onChange={(e) => setStateDescription(e.target.value)}
+                        className="form-field"
+                      />
                     </div>
 
-                    <a className="cta primary">Add To Calendar</a>
+                    <a
+                      className="cta primary"
+                      onClick={() => addEmotionalState()}
+                    >
+                      Add To Calendar
+                    </a>
                   </div>
                 </div>
 
@@ -239,7 +337,12 @@ const Diary = () => {
                       >
                         No, Go Back
                       </a>
-                      <a className="cta delete-primary">Yes, Delete All</a>
+                      <a
+                        className="cta delete-primary"
+                        onClick={() => deleteUserDayStates(stateDate)}
+                      >
+                        Yes, Delete All
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -315,15 +418,36 @@ const Diary = () => {
                           alt="Plus Icon"
                         />
                       </div>
-
                       <div className="diary-btn-wrapper">
-                        <div className="add-btn is-add" id="openAdd">
+                        <div
+                          className="add-btn is-add"
+                          id="openAdd"
+                          onClick={() =>
+                            setStateDate(
+                              `${year}-${String(currentMonth + 1).padStart(
+                                2,
+                                "0"
+                              )}-${String(cell.date).padStart(2, "0")}`
+                            )
+                          }
+                        >
                           <img
                             src="../assets/green-plus.svg"
                             alt="Green Plus"
                           />
                         </div>
-                        <div className="add-btn is-remove" id="openRemove">
+                        <div
+                          className="add-btn is-remove"
+                          id="openRemove"
+                          onClick={() =>
+                            setStateDate(
+                              `${year}-${String(currentMonth + 1).padStart(
+                                2,
+                                "0"
+                              )}-${String(cell.date).padStart(2, "0")}`
+                            )
+                          }
+                        >
                           <img src="../assets/red-x.svg" alt="Red X" />
                         </div>
                         <div className="add-btn is-menu">
@@ -331,13 +455,12 @@ const Diary = () => {
                         </div>
                       </div>
 
-                      <div className="day-tags-wrapper">
-                        {/* <div className="tag-circles"></div>
-                          <div className="tag"></div> */}
-                        {states.slice(0, 2).map((state) => {
+                      {/* <div className="day-tags-wrapper">
+                        {states.map((state, index) => {
                           return cell.date ===
                             new Date(state.date).getDate() ? (
                             <div
+                              key={state.stateName}
                               className="tag"
                               style={{
                                 color: `${state.color}`,
@@ -346,11 +469,65 @@ const Diary = () => {
                               }}
                             >
                               {state.stateName}
-                            </div>
+                            </div>  
                           ) : (
                             ""
                           );
                         })}
+                      </div> */}
+
+                      <div className="day-tags-wrapper">
+                        {(() => {
+                          const dayStates = states.filter(
+                            (s) => cell.date === new Date(s.date).getDate()
+                          );
+
+                          const tagStates = dayStates.slice(0, 2);
+                          const circleStates = dayStates.slice(2, 5);
+
+                          return (
+                            <>
+                              {tagStates.map((state) => (
+                                <div
+                                  key={state.stateName + state.date}
+                                  className="tag"
+                                  style={{
+                                    color: `${state.color}`,
+                                    border: `1px solid ${state.color}`,
+                                    backgroundColor: hexToRgba(
+                                      state.color,
+                                      0.1
+                                    ),
+                                  }}
+                                >
+                                  {state.stateName}
+                                </div>
+                              ))}
+
+                              {circleStates.length > 0 && (
+                                <div className="tag-circles-wrapper">
+                                  {circleStates.map((state) => (
+                                    <div
+                                      key={state.stateName + state.date}
+                                      className="tag-circles-pulse"
+                                      style={{
+                                        backgroundColor: hexToRgba(
+                                          state.color,
+                                          0.25
+                                        ),
+                                      }}
+                                    >
+                                      <div
+                                        className="tag-circles"
+                                        style={{ backgroundColor: state.color }}
+                                      ></div>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </>
+                          );
+                        })()}
                       </div>
 
                       <div className="day-number">

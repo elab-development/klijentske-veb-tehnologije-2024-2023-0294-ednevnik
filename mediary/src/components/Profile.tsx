@@ -96,6 +96,22 @@ function Profile() {
     modalWrapper.classList.add("is-invisible");
   });
 
+  const deleteUserStates = async () => {
+    if (!user) return;
+
+    const { error } = await supabase
+      .from("emotionalStates")
+      .delete()
+      .eq("userID", user.id);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    console.log("Successfully deleted all user entries.");
+  };
+
   return (
     <>
       {" "}
@@ -146,7 +162,12 @@ function Profile() {
               </div>
 
               <div className="profile-btn-wrapper">
-                <a className="cta delete-secondary">Delete All Entries</a>
+                <a
+                  className="cta delete-secondary"
+                  onClick={() => deleteUserStates()}
+                >
+                  Delete All Entries
+                </a>
                 <a className="cta delete-primary" id="deleteOpenModal">
                   Delete Account
                 </a>

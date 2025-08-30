@@ -1035,7 +1035,7 @@ option {
 
 .day-tags-wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   row-gap: 4px;
   align-items: start;
 }
@@ -1199,6 +1199,44 @@ textarea {
   flex-direction: row;
   column-gap: 12px;
   flex-wrap: wrap;
+}
+
+.is-color {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 8px;
+  background-color: #333332;
+  border: none;
+}
+
+input[type="color" i] {
+  outline: none;
+  inline-size: 48px;
+  block-size: 48px;
+  cursor: default;
+}
+
+.tag-circles {
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
+}
+
+.tag-circles-pulse {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+}
+
+.tag-circles-wrapper {
+  display: flex;
+  flex-direction: row;
+  column-gap: 4px;
+  margin-bottom: 4px;
 }
 
 /* DIARY end */

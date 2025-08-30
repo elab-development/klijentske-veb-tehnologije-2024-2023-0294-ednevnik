@@ -32,11 +32,17 @@ git clone https://github.com/elab-development/klijentske-veb-tehnologije-2024-20
 ```
 
 - Zatim ući u direktorijum projekta i instalirati zavisnosti:
+
+```bash
   cd naziv-projekta
   npm install
+```
 
 - Pokretanje projekta u development modu:
+
+```bash
   npm start
+```
 
 - Aplikacija će biti dostupna na adresi:
   http://localhost:3000

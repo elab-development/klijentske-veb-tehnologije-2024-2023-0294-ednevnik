@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
 import { supabase } from "../models/supabaseClients";
@@ -22,6 +22,9 @@ const Diary = () => {
   const [stateDescription, setStateDescription] = useState("");
   const [stateColor, setStateColor] = useState("");
   const [stateDate, setStateDate] = useState("");
+
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDescription, setSelectedDescription] = useState("");
 
   const loadUser = async () => {
     if (!user?.id) return;
@@ -247,6 +250,7 @@ const Diary = () => {
     }
 
     setStates((prev) => prev.filter((s) => s.date !== date));
+    setStateDate("");
 
     // console.log(date);
     // console.log(states);
@@ -356,13 +360,38 @@ const Diary = () => {
                       />
                     </div>
 
-                    <div className="modal-tags-group"></div>
+                    <div className="modal-tags-group">
+                      {selectedDate &&
+                        states
+                          .filter((s) => s.date === selectedDate)
+                          .map((s) => (
+                            <div
+                              key={s.stateName + s.date}
+                              className="tag"
+                              style={{
+                                color: s.color,
+                                border: `1px solid ${s.color}`,
+                                backgroundColor: hexToRgba(s.color, 0.1),
+                              }}
+                              onClick={() =>
+                                setSelectedDescription(s.stateDesc)
+                              }
+                            >
+                              {s.stateName}
+                            </div>
+                          ))}
+
+                      {selectedDate &&
+                        states.filter((s) => s.date === selectedDate).length ===
+                          0 && <p>No states for this day.</p>}
+                    </div>
 
                     <div className="modal-group">
-                      <p>You noted for selectedFeeling:</p>
+                      <p>You noted for it:</p>
                       <textarea
                         id="infoTextArea"
                         className="form-field"
+                        value={selectedDescription}
                         readOnly
                       ></textarea>
                     </div>
@@ -450,7 +479,19 @@ const Diary = () => {
                         >
                           <img src="../assets/red-x.svg" alt="Red X" />
                         </div>
-                        <div className="add-btn is-menu">
+                        <div
+                          className="add-btn is-menu"
+                          onClick={() => {
+                            setSelectedDate(
+                              `${year}-${String(currentMonth + 1).padStart(
+                                2,
+                                "0"
+                              )}-${String(cell.date).padStart(2, "0")}`
+                            );
+
+                            setSelectedDescription("");
+                          }}
+                        >
                           <img src="../assets/blue-menu.svg" alt="Blue Menu" />
                         </div>
                       </div>
